@@ -1,0 +1,315 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>معرض السيارات - Ultimate Auto</title>
+  <meta name="description" content="موقع عرض وبيع السيارات - تصميم احترافي، كتالوج، صفحات تفصيلية، تواصل، ومزايا أخرى.">
+  <style>
+    /* RESET بسيط */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family: 'Tahoma', Arial, sans-serif;background:#f4f6f8;color:#222;line-height:1.6}
+
+    /* شريط التصفح */
+    .navbar{display:flex;align-items:center;justify-content:space-between;padding:18px 36px;background:#0b2336;color:#fff}
+    .brand{font-size:22px;font-weight:700;letter-spacing:1px}
+    .nav-links{display:flex;gap:18px}
+    .nav-links a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:6px}
+    .nav-links a:hover{background:rgba(255,255,255,0.06)}
+
+    /* قسم البطل */
+    .hero{display:flex;gap:40px;align-items:center;padding:60px 6%;background:linear-gradient(90deg,#0b2336 0%, #153446 100%);color:#fff}
+    .hero-left{flex:1}
+    .hero h1{font-size:42px;margin-bottom:12px}
+    .hero p{opacity:0.92;margin-bottom:18px}
+    .btn{display:inline-block;background:#ff6b00;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:700}
+
+    .hero-right{flex:1;display:flex;justify-content:center}
+    .hero-right img{max-width:100%;border-radius:12px;box-shadow:0 8px 30px rgba(11,35,54,0.45)}
+
+    /* فلاتر وسك्शन البحث */
+    .search-bar{padding:22px 6%;display:flex;gap:12px;align-items:center;background:#fff;margin-top:-40px;border-radius:12px;box-shadow:0 6px 30px rgba(11,35,54,0.08);width:88%;margin-left:auto;margin-right:auto}
+    .search-bar input,.search-bar select{padding:12px;border:1px solid #e3e6ea;border-radius:10px;flex:1}
+    .search-bar button{padding:12px 16px;border-radius:10px;border:none;background:#0b2336;color:#fff;font-weight:700}
+
+    /* شبكة السيارات */
+    .inventory{padding:36px 6%}
+    .section-title{font-size:24px;margin-bottom:18px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+    .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(29,41,52,0.06);display:flex;flex-direction:column}
+    .card img{width:100%;height:170px;object-fit:cover}
+    .card-body{padding:14px;flex:1;display:flex;flex-direction:column}
+    .card-body h3{margin-bottom:8px;font-size:18px}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    .price{font-weight:800;color:#ff6b00}
+    .details-btn{background:#0b2336;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
+
+    /* وصف طويل وخدمات */
+    .about{display:flex;gap:28px;padding:36px 6%;align-items:center}
+    .about img{width:50%;border-radius:12px}
+    .about .copy{flex:1}
+
+    /* ترويسة الميزات */
+    .features{display:flex;gap:14px;padding:24px 6%}
+    .feature{flex:1;background:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 6px 18px rgba(29,41,52,0.04)}
+    .feature h4{margin-bottom:8px}
+
+    /* معرض صور */
+    .gallery{padding:36px 6%}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .gallery-grid img{width:100%;height:180px;object-fit:cover;border-radius:10px}
+
+    /* تواصل */
+    .contact{padding:36px 6%;background:#fff;margin:36px 6%;border-radius:12px}
+    .contact form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .contact input,.contact textarea{padding:12px;border:1px solid #e3e6ea;border-radius:8px}
+    .contact textarea{grid-column:1/-1;height:120px}
+    .contact button{grid-column:1/-1;padding:12px;background:#ff6b00;color:#fff;border:none;border-radius:8px;font-weight:700}
+
+    /* فوتر */
+    .footer{background:#0b2336;color:#fff;padding:28px 6%;display:flex;justify-content:space-between;gap:20px}
+    .footer a{color:#bde0ff;text-decoration:none}
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{flex-direction:column;text-align:center}
+      .about{flex-direction:column}
+      .about img{width:100%}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:520px){
+      .search-bar{flex-direction:column}
+      .contact form{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:1fr}
+    }
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55)}
+    .modal .panel{background:#fff;border-radius:12px;max-width:900px;width:94%;padding:18px;display:flex;gap:12px}
+    .modal img{width:50%;height:320px;object-fit:cover;border-radius:8px}
+    .modal .info{padding:8px;flex:1}
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="brand">Ultimate Auto</div>
+    <nav class="nav-links">
+      <a href="#inventory">المعارض</a>
+      <a href="#services">الخدمات</a>
+      <a href="#gallery">المعرض</a>
+      <a href="#contact">تواصل معنا</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-left">
+      <h1>اشترِ سيارتك التالية مع Ultimate Auto</h1>
+      <p>أضخم تشكيلة من السيارات الجديدة والمستعملة بتقييمات موثوقة، تجرِبة افتراضية، وتمويل مخصّص — كل ذلك في مكان واحد.</p>
+      <a href="#inventory" class="btn">تصفح التشكيلة</a>
+    </div>
+    <div class="hero-right">
+      <img src="images.jfif "   alt=" سيارة مميزة">
+    </div>
+  </section>
+
+  <div class="search-bar" role="search">
+    <input type="search" id="q" placeholder="بحث — طراز، سنة، لون...">
+    <select id="make">
+      <option value="">الكل</option>
+      <option>تويوتا</option>
+      <option>مرسيدس</option>
+      <option>بي إم دبليو</option>
+      <option>لكزس</option>
+    </select>
+    <select id="price">
+      <option value="">الكل</option>
+      <option value="0-30000">أقل من 30,000</option>
+      <option value="30000-70000">30,000 - 70,000</option>
+      <option value="70000+">70,000+</option>
+    </select>
+    <button id="searchBtn">ابحث</button>
+  </div>
+
+  <main>
+
+    <section id="inventory" class="inventory">
+      <h2 class="section-title">تشكيلة السيارات</h2>
+      <div class="grid" id="carsGrid">
+        <!-- بطاقة نموذجية، انسخ وعدّل للسيارات الفعلية -->
+
+        <article class="card" data-id="1">
+          <img src="download (2).jfif" alt="Car 1">
+          <div class="card-body">
+            <h3>مرسيدس C300 — 2022</h3>
+            <div>محرك سعة 2.0L • 4 أبواب • أوتوماتيك</div>
+            <div class="meta">
+              <div class="price">$42,000</div>
+              <a class="details-btn" href="#" data-open="1">تفاصيل</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-id="2">
+          <img src="download (1).jfif" alt="Car 2">
+          <div class="card-body">
+            <h3>بی ام دبلیو 320i — 2021</h3>
+            <div>محرك 2.0L • وارد • ريال</div>
+            <div class="meta">
+              <div class="price">$38,500</div>
+              <a class="details-btn" href="#" data-open="2">تفاصيل</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-id="3">
+          <img src="images.webp"Car 3">
+          <div class="card-body">
+            <h3>تويوتا كامري — 2020</h3>
+            <div>موفر للوقود • 4 سلندر • نظيفة</div>
+            <div class="meta">
+              <div class="price">$24,200</div>
+              <a class="details-btn" href="#" data-open="3">تفاصيل</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-id="4">
+          <img src="download.jfif" alt="Car ">
+          <div class="card-body">
+            <h3>لكزس IS — 2019</h3>
+            <div>فخامة، جودة عالية، ضمان محدود</div>
+            <div class="meta">
+              <div class="price">$29,900</div>
+              <a class="details-btn" href="#" data-open="4">تفاصيل</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="services" class="about">
+      <img src="images.webp" alt="معرض">
+      <div class="copy">
+        <h2>لماذا Ultimate Auto؟</h2>
+        <p>نقدّم خدمات متكاملة: تقييم فوري، تجربة قيادة، تمويل مخصّص، وضمانات ما بعد البيع. فريقنا يتابع مع كل زبون خطوة بخطوة ليضمن تجربة شراء شفافة ومريحة.</p>
+
+        <div class="features" style="margin-top:16px">
+          <div class="feature"><h4>تمويل سريع</h4><p>خطة سداد مرنة.</p></div>
+          <div class="feature"><h4>سيارات مفحوصة</h4><p>فحص شامل قبل العرض.</p></div>
+          <div class="feature"><h4>تجربة قيادة</h4><p>اختبار السيارة قبل الشراء.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+      <h2 class="section-title">معرض الصور</h2>
+      <div class="gallery-grid">
+        <img src="download (3).jfif" alt="2">
+        <img src="download (4).jfif" alt="3">
+        <img src="images (1).jfif" alt="4">
+        
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2 class="section-title">تواصل معنا</h2>
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="الاسم" required>
+        <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+        <input type="text" name="phone" placeholder="الهاتف">
+        <input type="text" name="subject" placeholder="الموضوع">
+        <textarea name="message" placeholder="رسالتك..." required></textarea>
+        <button type="submit">أرسل</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>Ultimate Auto</strong>
+      <p>كل الحقوق محفوظة © 2025</p>
+    </div>
+    <div>
+      <p>العنوان: شارع المعرض الرئيسي • تواصل: 555-0100</p>
+      <p><a href="#">سياسة الخصوصية</a> • <a href="#">الشروط</a></p>
+    </div>
+  </footer>
+
+  <!-- نافذة التفاصيل (Modal) -->
+  <div class="modal" id="modal">
+    <div class="panel">
+      <img id="modalImg" src="images/car1.jpg" alt="">
+      <div class="info">
+        <h3 id="modalTitle">عنوان السيارة</h3>
+        <p id="modalDesc">وصف تفصيلي: محرك، حالة، عداد، لون، مزايا إضافية.</p>
+        <p style="margin-top:12px"><strong>السعر: </strong><span id="modalPrice">$0</span></p>
+        <a href="#contact" class="btn" style="margin-top:12px;display:inline-block">اطلب المزيد</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // بيانات نموذجية للسيارات (يمكن ربطها بقاعدة بيانات لاحقًا)
+    const cars = [
+      {id:1,title:'مرسيدس C300 — 2022',img:'download (2).jfif',desc:'محرك 2.0L - أوتوماتيك - عداد منخفض',price:'$42,000'},
+      {id:2,title:'بی ام دبلیو 320i — 2021',img:'download (1).jfif',desc:'حالة ممتازة - وارد - ضمان',price:'$38,500'},
+      {id:3,title:'تويوتا كامري — 2020',img:'images.webp',desc:'موفرة للوقود - استخدام عائلي',price:'$24,200'},
+      {id:4,title:'لكزس IS — 2019',img:'download.jfif',desc:'فخامة داخلية - صيانة دورية',price:'$29,900'}
+    ];
+
+    // ربط أزرار التفاصيل
+    document.querySelectorAll('.details-btn').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = Number(btn.getAttribute('data-open'));
+        openModal(id);
+      });
+    });
+
+    function openModal(id){
+      const car = cars.find(c=>c.id===id);
+      if(!car) return;
+      document.getElementById('modalImg').src = car.img;
+      document.getElementById('modalTitle').textContent = car.title;
+      document.getElementById('modalDesc').textContent = car.desc;
+      document.getElementById('modalPrice').textContent = car.price;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    // اغلاق عند النقر خارج اللوحة
+    document.getElementById('modal').addEventListener('click', e=>{
+      if(e.target.id==='modal') document.getElementById('modal').style.display='none';
+    });
+
+    // البحث البسيط
+    document.getElementById('searchBtn').addEventListener('click', ()=>{
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      const grid = document.getElementById('carsGrid');
+      grid.innerHTML = '';
+      const filtered = cars.filter(c=> c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q));
+      (filtered.length?filtered:cars).forEach(car=>{
+        const el = document.createElement('article'); el.className='card'; el.setAttribute('data-id',car.id);
+        el.innerHTML = `\n          <img src="${car.img}" alt="">\n          <div class="card-body">\n            <h3>${car.title}</h3>\n            <div>${car.desc}</div>\n            <div class="meta">\n              <div class="price">${car.price}</div>\n              <a class="details-btn" href="#" data-open="${car.id}">تفاصيل</a>\n            </div>\n          </div>`;
+        grid.appendChild(el);
+      });
+      // rebind
+      document.querySelectorAll('.details-btn').forEach(btn=>{
+        btn.addEventListener('click', e=>{e.preventDefault();openModal(Number(btn.getAttribute('data-open')));});
+      });
+    });
+
+    // معالجة نموذج التواصل (عرض فقط، لا إرسال)
+    document.getElementById('contactForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      alert('تم استلام رسالتك! سنتواصل معك قريبا.');
+      e.target.reset();
+    });
+
+  </script>
+</body>
+</html>
